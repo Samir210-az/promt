@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'promt-ai-v2';
+const CACHE_VERSION = 'promt-ai-v3';
 const ASSETS = [
   './',
   './index.html',
