@@ -1,9 +1,9 @@
 {
-  "id": "/promt/",
+  "id": "/promt/?v2",
   "name": "Promt.AI — Zarafatcıl Prompt Generatoru",
   "short_name": "Promt.AI",
   "description": "Sadə fikrini yaz, hərtərəfli AI promtu al — zarafatla.",
-  "start_url": "./index.html",
+  "start_url": "./index.html?v2",
   "scope": "./",
   "display": "standalone",
   "background_color": "#15090a",
