@@ -95,7 +95,11 @@ Bu promt nəticədə hazır bir "ssenari/storyboard" kimi istifadə oluna bilmə
 İstifadəçi sənə qısa, bəzən "ssdə" formada (yəni dağınıq, sadələşdirilmiş, bəlkə şəkilçisiz) bir fikir yazacaq.
 Sənin işin İKİ HİSSƏDİR:
 1) "joke": Həmin konkret sorğu ilə bağlı, ona aid, qısa (1-2 cümlə), səmimi və məzəli bir zarafat - istifadəçinin yazı tərzinə və ya mövzusuna istinad et. Həqarətverici olma, mehriban zarafat olsun.
-2) "prompt": İstifadəçinin fikrini, məqsəd növünə (${targetModel}) və tona (${tone}) uyğun, HƏRTƏRƏFLİ, DETALLI, peşəkar bir AI promtuna çevir. Promt aydın struktur, kontekst, məqsəd, format və məhdudiyyətləri ehtiva etsin. Promtun özü İNGİLİS DİLİNDƏ yazılmalıdır (çünki əksər AI modelləri ingiliscə promtlarla daha güclü işləyir), AMMA "joke" sahəsi Azərbaycan dilində olmalıdır.
+2) "prompt": İstifadəçinin fikrini, məqsəd növünə (${targetModel}) və tona (${tone}) uyğun, HƏRTƏRƏFLİ, DETALLI, peşəkar bir AI promtuna çevir. Promt aydın struktur, kontekst, məqsəd, format və məhdudiyyətləri ehtiva etsin. Promtun özü İNGİLİS DİLİNDƏ yazılmalıdır (çünki əksər AI modelləri ingiliscə promtlarla daha güclü işləyir), AMMA "joke" sahəsi həmişə Azərbaycan dilində olmalıdır.
+
+ÇOX VACİB DİL QAYDASI (BÜTÜN HALLARDA TƏTBİQ ET):
+Promtun SONUNDA, ayrıca, aydın və qətiyyətli bir bənd kimi bu tələbi əlavə et: hədəf AI bütün mətn cavabını, izahatı və ya şəkil üzərindəki YAZILI mətni MÜTLƏQ Azərbaycan dilində (Azerbaijani language, Latin alphabet, NOT Turkish, NOT Russian) yaratmalıdır — ingilis dilinə tərcümə etməməli, transliterasiya etməməlidir. Əgər istifadəçinin orijinal fikrində konkret Azərbaycan sözləri/ifadələri varsa (məsələn şəkil üzərində yazılacaq mətn, başlıq, slogan), həmin sözləri promtda dəqiq olaraq Azərbaycan dilində dırnaq içində göstər və "do not translate this text" qeydini əlavə et.
+${targetModel === 'şəkil' ? 'Şəkil generatoru üçün xüsusi qeyd: əgər şəkil üzərində mətn/yazı olacaqsa, o mətnin HƏRFİ Azərbaycan dilində olduğunu vurğula, məsələn: \'Render the exact text "..." in Azerbaijani — do not translate or transliterate it into English.\'' : ''}
 ${reelsInstructions}
 
 Cavabını YALNIZ bu JSON formatında ver, başqa heç nə əlavə etmə, markdown kodu işarələri (\`\`\`) qoyma:
@@ -167,8 +171,14 @@ TASK: Build a complete, ready-to-shoot Reel/Story storyboard based on the idea a
 7. OPTIMAL LENGTH: ideal duration for the platform (Reels: 15-30s, Story: 5-15s).
 8. CALL TO ACTION: a clear instruction for viewers (follow, comment, save, share).
 
+LANGUAGE REQUIREMENT: All spoken/written content (captions, on-screen text, voiceover) must be in Azerbaijani language (Azərbaycan dili, Latin alphabet) — do not translate it into English. Only this instruction block itself is in English for the AI's understanding.
+
 OUTPUT FORMAT: A ready-to-use shooting script/storyboard, not generic advice.`;
   }
+
+  const imageNote = targetModel === 'şəkil'
+    ? '\nIMPORTANT: If any text/words appear inside the image, render them exactly in Azerbaijani (Azərbaycan dili, Latin alphabet) as specified — do NOT translate or transliterate them into English.'
+    : '';
 
   return `ROLE: You are an expert assistant helping with the following request.
 
@@ -186,6 +196,8 @@ Expand the above raw idea into a complete, production-ready outcome. Specificall
 4. List concrete constraints, style guidelines, and quality bar.
 5. Include 2-3 concrete examples or reference points if relevant.
 6. State what a successful result looks like.
+
+LANGUAGE REQUIREMENT: Any text response, explanation, or written output must be produced in Azerbaijani language (Azərbaycan dili, Latin alphabet) — do not translate it into English.${imageNote}
 
 OUTPUT FORMAT: Well-structured, ready to paste directly into the target AI system listed above.`;
 }
