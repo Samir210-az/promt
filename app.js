@@ -77,11 +77,26 @@ clearBtn.addEventListener('click', ()=>{
 
 // ---------- Groq API call ----------
 async function callGroq(userIdea, targetModel, tone){
+  const reelsInstructions = targetModel === 'reels' ? `
+
+XÜSUSİ TAPŞIRIQ — REELS/STORY/SOSİAL MEDİA PROMTU:
+İstifadəçi Instagram Reels, TikTok, YouTube Shorts və ya Story formatında məzmun istəyir. Sən bu sahədə ən yaxşı sosial media strateqi kimi davran və promtu aşağıdakı elementləri ehtiva edəcək şəkildə qur:
+1. HOOK (ilk 1-3 saniyə) — diqqəti cəlb edən açılış cümləsi/vizual fikri, scroll-u dayandıracaq güc
+2. SCENE-BY-SCENE breakdown — hər səhnə üçün vizual təsvir, kamera hərəkəti/keçid tövsiyəsi, təxmini saniyə
+3. SƏS/MUSİQİ — trend olan səs effekti, musiqi ritmi və ya səsli izah üçün ton tövsiyəsi
+4. MƏTN OVERLAY — ekranda görünəcək qısa, oxunaqlı yazı təklifləri (hər səhnə üçün)
+5. CAPTION (altyazı) — cəlbedici, call-to-action olan paylaşım mətni
+6. HASHTAG strategiyası — 5-8 müvafiq, trend hashtag təklifi
+7. OPTİMAL UZUNLUQ — platform üçün ideal müddət (Reels: 15-30 san, Story: 5-15 san)
+8. CTA (Call-to-action) — izləyiciyə nə etməsini deyən aydın çağırış (follow, comment, save, share)
+Bu promt nəticədə hazır bir "ssenari/storyboard" kimi istifadə oluna bilməlidir, sırf ümumi məsləhət yox.` : '';
+
   const systemPrompt = `Sən "Promt.AI" adlı zarafatcıl, Azərbaycan dilində danışan bir AI prompt mühəndisisən.
 İstifadəçi sənə qısa, bəzən "ssdə" formada (yəni dağınıq, sadələşdirilmiş, bəlkə şəkilçisiz) bir fikir yazacaq.
 Sənin işin İKİ HİSSƏDİR:
 1) "joke": Həmin konkret sorğu ilə bağlı, ona aid, qısa (1-2 cümlə), səmimi və məzəli bir zarafat - istifadəçinin yazı tərzinə və ya mövzusuna istinad et. Həqarətverici olma, mehriban zarafat olsun.
 2) "prompt": İstifadəçinin fikrini, məqsəd növünə (${targetModel}) və tona (${tone}) uyğun, HƏRTƏRƏFLİ, DETALLI, peşəkar bir AI promtuna çevir. Promt aydın struktur, kontekst, məqsəd, format və məhdudiyyətləri ehtiva etsin. Promtun özü İNGİLİS DİLİNDƏ yazılmalıdır (çünki əksər AI modelləri ingiliscə promtlarla daha güclü işləyir), AMMA "joke" sahəsi Azərbaycan dilində olmalıdır.
+${reelsInstructions}
 
 Cavabını YALNIZ bu JSON formatında ver, başqa heç nə əlavə etmə, markdown kodu işarələri (\`\`\`) qoyma:
 {"joke": "...", "prompt": "..."}`;
@@ -129,8 +144,32 @@ function buildFallbackPrompt(userIdea, targetModel, tone){
     'şəkil':'an image generation model (Midjourney/DALL·E/Stable Diffusion)',
     'kod':'a coding assistant',
     'video':'a video/animation generation tool',
+    'reels':'a short-form social video platform (Instagram Reels/TikTok/YouTube Shorts)',
     'yazı':'a writing/content generation AI'
   };
+
+  if(targetModel === 'reels'){
+    return `ROLE: You are an expert short-form social media content strategist (Reels/TikTok/Shorts specialist).
+
+CONTENT IDEA (raw, informal):
+"${userIdea}"
+
+TONE: ${toneMap[tone] || tone}
+
+TASK: Build a complete, ready-to-shoot Reel/Story storyboard based on the idea above. Structure your output as:
+
+1. HOOK (first 1-3 seconds): a scroll-stopping opening line or visual.
+2. SCENE-BY-SCENE BREAKDOWN: for each scene, describe the visual, camera movement/transition, and approximate duration in seconds.
+3. AUDIO: suggest a trending sound style, music rhythm, or voiceover tone.
+4. TEXT OVERLAYS: short, punchy on-screen text for each scene.
+5. CAPTION: an engaging caption with a hook and a call-to-action.
+6. HASHTAGS: 5-8 relevant, high-reach hashtags.
+7. OPTIMAL LENGTH: ideal duration for the platform (Reels: 15-30s, Story: 5-15s).
+8. CALL TO ACTION: a clear instruction for viewers (follow, comment, save, share).
+
+OUTPUT FORMAT: A ready-to-use shooting script/storyboard, not generic advice.`;
+  }
+
   return `ROLE: You are an expert assistant helping with the following request.
 
 TARGET SYSTEM: ${modelMap[targetModel] || targetModel}
