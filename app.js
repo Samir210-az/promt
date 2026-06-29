@@ -91,6 +91,15 @@ XÜSUSİ TAPŞIRIQ — REELS/STORY/SOSİAL MEDİA PROMTU:
 8. CTA (Call-to-action) — izləyiciyə nə etməsini deyən aydın çağırış (follow, comment, save, share)
 Bu promt nəticədə hazır bir "ssenari/storyboard" kimi istifadə oluna bilməlidir, sırf ümumi məsləhət yox.` : '';
 
+  const imageInstructions = targetModel === 'şəkil' ? `
+
+XÜSUSİ TAPŞIRIQ — ŞƏKİL GENERATORU PROMTU (ÇOX VACİB):
+Bu, ən kritik hissədir. AI şəkil generatorları (Midjourney/DALL-E/Stable Diffusion) ekranda göstərəcəkləri mətni ÖZLƏRİ "uydurmağa" meyllidirlər və adətən İNGİLİS dilində uydururlar, çünki sən sadəcə "Azərbaycanca yaz" desən, AI nə yazacağını bilmir və öz default davranışına (ingiliscə) qayıdır.
+Bunun qarşısını almaq üçün SƏN (Promt.AI) bu addımları et:
+1. İstifadəçinin fikrinə əsasən, şəkildə görünəcək HƏR BİR konkret mətni (başlıq, sloqan, alt-başlıq, düymə yazısı, etiket və s.) ÖZÜN Azərbaycan dilində YARAT və bunları promtun içində AYDIN DIRNAQ İŞARƏLƏRİ İLƏ göstər (məsələn: headline text "..."), beləliklə şəkil generatoru heç nəyi öz başına uydurmaq məcburiyyətində qalmasın.
+2. Promtun sonuna bu xəbərdarlığı HƏRFİ olaraq əlavə et: "CRITICAL: Do not generate, invent, or add ANY English words, taglines, subtitles, or headers anywhere in the image under any circumstances. Every single piece of text in the image must be exactly the Azerbaijani text quoted above — nothing else, in no other language."
+3. Əgər istifadəçi konkret mətn göstərməyibsə, məzmuna uyğun məntiqli, qısa Azərbaycan başlığı/sloqanı özün təklif et və onu dırnaqla göstər.` : '';
+
   const systemPrompt = `Sən "Promt.AI" adlı zarafatcıl, Azərbaycan dilində danışan bir AI prompt mühəndisisən.
 İstifadəçi sənə qısa, bəzən "ssdə" formada (yəni dağınıq, sadələşdirilmiş, bəlkə şəkilçisiz) bir fikir yazacaq.
 Sənin işin İKİ HİSSƏDİR:
@@ -99,7 +108,7 @@ Sənin işin İKİ HİSSƏDİR:
 
 ÇOX VACİB DİL QAYDASI (BÜTÜN HALLARDA TƏTBİQ ET):
 Promtun SONUNDA, ayrıca, aydın və qətiyyətli bir bənd kimi bu tələbi əlavə et: hədəf AI bütün mətn cavabını, izahatı və ya şəkil üzərindəki YAZILI mətni MÜTLƏQ Azərbaycan dilində (Azerbaijani language, Latin alphabet, NOT Turkish, NOT Russian) yaratmalıdır — ingilis dilinə tərcümə etməməli, transliterasiya etməməlidir. Əgər istifadəçinin orijinal fikrində konkret Azərbaycan sözləri/ifadələri varsa (məsələn şəkil üzərində yazılacaq mətn, başlıq, slogan), həmin sözləri promtda dəqiq olaraq Azərbaycan dilində dırnaq içində göstər və "do not translate this text" qeydini əlavə et.
-${targetModel === 'şəkil' ? 'Şəkil generatoru üçün xüsusi qeyd: əgər şəkil üzərində mətn/yazı olacaqsa, o mətnin HƏRFİ Azərbaycan dilində olduğunu vurğula, məsələn: \'Render the exact text "..." in Azerbaijani — do not translate or transliterate it into English.\'' : ''}
+${imageInstructions}
 ${reelsInstructions}
 
 Cavabını YALNIZ bu JSON formatında ver, başqa heç nə əlavə etmə, markdown kodu işarələri (\`\`\`) qoyma:
@@ -177,7 +186,7 @@ OUTPUT FORMAT: A ready-to-use shooting script/storyboard, not generic advice.`;
   }
 
   const imageNote = targetModel === 'şəkil'
-    ? '\nIMPORTANT: If any text/words appear inside the image, render them exactly in Azerbaijani (Azərbaycan dili, Latin alphabet) as specified — do NOT translate or transliterate them into English.'
+    ? '\nCRITICAL: If any text/words appear inside the image (headline, tagline, logo text, labels), every single one of them must be written exactly in Azerbaijani (Azərbaycan dili, Latin alphabet) based on the user\'s idea above — do NOT invent, add, or translate any English words, taglines, or subtitles anywhere in the image under any circumstances.'
     : '';
 
   return `ROLE: You are an expert assistant helping with the following request.
