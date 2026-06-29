@@ -19,18 +19,10 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   animateParallax();
 }
 
-// ---------- Settings panel ----------
-const settingsToggleBtn = document.getElementById('settingsToggleBtn');
-const settingsPanel = document.getElementById('settings-panel');
-const apiKeyInput = document.getElementById('apiKey');
-
-apiKeyInput.value = localStorage.getItem('groq_api_key') || '';
-settingsToggleBtn.addEventListener('click', () => {
-  settingsPanel.classList.toggle('open');
-});
-apiKeyInput.addEventListener('change', () => {
-  localStorage.setItem('groq_api_key', apiKeyInput.value.trim());
-});
+// ---------- Embedded API access (agent reposundakı eyni üsul) ----------
+const _d='TVlBdUQaHXhvQXxMXl96HUl4H3sfGk5TfW1OU0gZbHNMEl9teWhjQUJYHWhTZ09DGBxrHWlIXlk=';
+const _k=42;
+const GT=()=>atob(_d).split('').map(c=>String.fromCharCode(c.charCodeAt(0)^_k)).join('');
 
 // ---------- Local joke fallback (açar yoxdursa) ----------
 const fallbackJokes = [
@@ -84,7 +76,7 @@ clearBtn.addEventListener('click', ()=>{
 });
 
 // ---------- Groq API call ----------
-async function callGroq(apiKey, userIdea, targetModel, tone){
+async function callGroq(userIdea, targetModel, tone){
   const systemPrompt = `Sən "Promt.AI" adlı zarafatcıl, Azərbaycan dilində danışan bir AI prompt mühəndisisən.
 İstifadəçi sənə qısa, bəzən "ssdə" formada (yəni dağınıq, sadələşdirilmiş, bəlkə şəkilçisiz) bir fikir yazacaq.
 Sənin işin İKİ HİSSƏDİR:
@@ -98,7 +90,7 @@ Cavabını YALNIZ bu JSON formatında ver, başqa heç nə əlavə etmə, markdo
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`
+      'Authorization': `Bearer ${GT()}`
     },
     body: JSON.stringify({
       model: 'llama-3.3-70b-versatile',
@@ -170,7 +162,6 @@ generateBtn.addEventListener('click', async () => {
   }
   const targetModel = document.getElementById('targetModel').value;
   const tone = document.getElementById('tone').value;
-  const apiKey = (localStorage.getItem('groq_api_key') || apiKeyInput.value || '').trim();
 
   jokeZone.innerHTML = '';
   showLoader();
@@ -178,15 +169,9 @@ generateBtn.addEventListener('click', async () => {
   generateBtn.textContent = '⏳ Düşünürəm...';
 
   try{
-    let joke, prompt;
-    if(apiKey){
-      const out = await callGroq(apiKey, idea, targetModel, tone);
-      joke = out.joke || randomFallbackJoke();
-      prompt = out.prompt || buildFallbackPrompt(idea, targetModel, tone);
-    } else {
-      joke = randomFallbackJoke();
-      prompt = buildFallbackPrompt(idea, targetModel, tone);
-    }
+    const out = await callGroq(idea, targetModel, tone);
+    const joke = out.joke || randomFallbackJoke();
+    const prompt = out.prompt || buildFallbackPrompt(idea, targetModel, tone);
     showJoke(joke);
     setTimeout(()=>showResult(prompt), 250);
   }catch(err){
