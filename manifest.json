@@ -1,0 +1,26 @@
+{
+  "name": "Promt.AI — Zarafatcıl Prompt Generatoru",
+  "short_name": "Promt.AI",
+  "description": "Sadə fikrini yaz, hərtərəfli AI promtu al — zarafatla.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#15090a",
+  "theme_color": "#1a0505",
+  "orientation": "portrait-primary",
+  "lang": "az",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
