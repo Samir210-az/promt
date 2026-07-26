@@ -226,6 +226,122 @@ footer a:hover{text-decoration:underline;}
   .sub{font-size:.74rem;line-height:1.25;}
   textarea{min-height:48px;}
 }
+
+/* ===== PRO badge + modal ===== */
+.pro-fab{
+  position:fixed;top:14px;right:14px;z-index:20;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 15px;border-radius:999px;
+  background:linear-gradient(120deg, var(--gold), #e6c07a);
+  color:#1a0a02;font-weight:700;font-size:.78rem;letter-spacing:.02em;
+  border:none;cursor:pointer;
+  box-shadow:0 8px 22px -8px rgba(210,165,93,.7);
+  animation:logoIn .7s ease .3s both;
+}
+.pro-fab:hover{transform:translateY(-1px);}
+.pro-fab svg{flex-shrink:0;}
+
+.pro-overlay{
+  position:fixed;inset:0;z-index:50;
+  background:rgba(8,3,3,.72);
+  backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;
+  padding:18px;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s ease;
+}
+.pro-overlay.open{opacity:1;pointer-events:auto;}
+
+.pro-modal{
+  position:relative;width:100%;max-width:400px;max-height:90vh;overflow-y:auto;
+  background:radial-gradient(ellipse at top, #2a0a0a 0%, #15090a 60%, #0b0506 100%);
+  border:1px solid rgba(210,165,93,.3);
+  border-radius:22px;
+  padding:30px 24px 24px;
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.8);
+  transform:translateY(18px) scale(.97);opacity:0;
+  transition:transform .35s cubic-bezier(.16,1,.3,1), opacity .35s cubic-bezier(.16,1,.3,1);
+}
+.pro-overlay.open .pro-modal{transform:translateY(0) scale(1);opacity:1;}
+
+.pro-close{
+  position:absolute;top:14px;right:14px;
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  color:var(--paper);font-size:1rem;line-height:1;cursor:pointer;
+}
+.pro-close:hover{background:rgba(255,255,255,.14);}
+
+.pro-orb{
+  width:78px;height:78px;margin:0 auto 14px;
+  display:flex;align-items:center;justify-content:center;
+}
+.pro-orb svg{filter:drop-shadow(0 0 14px rgba(210,165,93,.55));}
+
+.pro-heading{
+  text-align:center;font-size:1.5rem;font-weight:800;margin-bottom:4px;
+  background:linear-gradient(120deg, var(--paper) 20%, var(--gold) 60%, var(--teal) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.pro-sub{text-align:center;color:var(--muted);font-size:.82rem;margin-bottom:18px;}
+
+.pro-features{list-style:none;margin-bottom:20px;}
+.pro-features li{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 0;font-size:.86rem;color:var(--paper);
+  opacity:0;transform:translateY(10px);
+  animation:proRowIn .55s cubic-bezier(.16,1,.3,1) forwards;
+}
+.pro-overlay.open .pro-features li:nth-child(1){animation-delay:.10s;}
+.pro-overlay.open .pro-features li:nth-child(2){animation-delay:.17s;}
+.pro-overlay.open .pro-features li:nth-child(3){animation-delay:.24s;}
+.pro-overlay.open .pro-features li:nth-child(4){animation-delay:.31s;}
+.pro-overlay.open .pro-features li:nth-child(5){animation-delay:.38s;}
+@keyframes proRowIn{to{opacity:1;transform:translateY(0);}}
+.pro-features .ic{
+  width:26px;height:26px;flex-shrink:0;border-radius:8px;
+  background:rgba(210,165,93,.12);border:1px solid rgba(210,165,93,.3);
+  display:flex;align-items:center;justify-content:center;
+}
+
+.pro-plans{display:flex;gap:10px;margin-bottom:18px;}
+.pro-plan{
+  flex:1;position:relative;border-radius:14px;padding:14px 14px 16px;
+  border:1px solid rgba(255,255,255,.1);
+  opacity:0;transform:translateY(10px);
+  animation:proRowIn .55s cubic-bezier(.16,1,.3,1) .46s forwards;
+}
+.pro-plan.yearly{animation-delay:.53s;}
+.pro-plan.monthly{background:linear-gradient(150deg, rgba(42,157,143,.18), rgba(42,157,143,.04));}
+.pro-plan.yearly{background:rgba(255,255,255,.04);}
+.pro-plan .p-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+.pro-plan.monthly .p-label{color:#bfe9e2;}
+.pro-plan .p-price{font-size:1.25rem;font-weight:800;margin-top:5px;color:var(--paper);}
+.pro-plan .p-billed{font-size:.7rem;color:var(--muted);margin-top:8px;}
+.pro-save{
+  position:absolute;top:-10px;right:10px;
+  background:var(--gold);color:#1a0a02;font-size:.62rem;font-weight:700;
+  padding:4px 9px;border-radius:999px;
+  transform:translateY(6px) scale(.7);opacity:0;
+  animation:proPop .5s cubic-bezier(.34,1.56,.64,1) .68s forwards;
+}
+@keyframes proPop{0%{transform:translateY(6px) scale(.7);opacity:0;}60%{transform:translateY(0) scale(1.08);opacity:1;}100%{transform:translateY(0) scale(1);opacity:1;}}
+
+.pro-subscribe{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:15px;border-radius:14px;border:none;cursor:pointer;
+  background:linear-gradient(120deg, var(--bordo), var(--bordo-light));
+  color:var(--paper);font-weight:700;font-size:.98rem;text-decoration:none;
+  box-shadow:0 10px 30px -10px rgba(106,0,0,.7);
+  opacity:0;transform:translateY(10px);
+  animation:proRowIn .55s cubic-bezier(.16,1,.3,1) .78s forwards;
+}
+.pro-subscribe:hover{transform:translateY(-2px);}
+.pro-note{text-align:center;font-size:.68rem;color:var(--muted);margin-top:10px;}
+
+@media (prefers-reduced-motion: reduce){
+  .pro-modal,.pro-features li,.pro-plan,.pro-save,.pro-subscribe{animation:none !important;opacity:1 !important;transform:none !important;}
+}
 </style>
 </head>
 <body>
@@ -243,6 +359,63 @@ footer a:hover{text-decoration:underline;}
   <h1>Promt.AI</h1>
   <p class="sub">Fikrini necə yazırsansa elə yaz — qısa, dağınıq, sadə formada. Promt.AI əvvəlcə bir zarafat eləsin, sonra sənə hərtərəfli, qənaətverici AI promtu hazırlasın.</p>
 </header>
+
+<button class="pro-fab" id="proFab" type="button">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a0a02" stroke-width="2" stroke-linejoin="round"><path d="M12 3c.4 3.6 1.4 4.6 5 5-3.6.4-4.6 1.4-5 5-.4-3.6-1.4-4.6-5-5 3.6-.4 4.6-1.4 5-5Z"/></svg>
+  Pro-nu Aç
+</button>
+
+<div class="pro-overlay" id="proOverlay">
+  <div class="pro-modal" role="dialog" aria-modal="true" aria-labelledby="proHeading">
+    <button class="pro-close" id="proClose" type="button" aria-label="Bağla">✕</button>
+
+    <div class="pro-orb">
+      <svg width="70" height="46" viewBox="0 0 140 92" fill="none" stroke="url(#proGrad)" stroke-width="1.6">
+        <defs>
+          <linearGradient id="proGrad" x1="0" y1="0" x2="140" y2="92">
+            <stop offset="0" stop-color="#D2A55D"/>
+            <stop offset="1" stop-color="#2A9D8F"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="35" cy="46" rx="34" ry="26"/>
+        <ellipse cx="58" cy="46" rx="34" ry="26"/>
+        <ellipse cx="82" cy="46" rx="34" ry="26"/>
+        <ellipse cx="105" cy="46" rx="34" ry="26"/>
+      </svg>
+    </div>
+
+    <h2 class="pro-heading" id="proHeading">Pro-nu Aç</h2>
+    <p class="pro-sub">Promt.AI-nin bütün gücündən limitsiz istifadə et</p>
+
+    <ul class="pro-features">
+      <li><span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D2A55D" stroke-width="1.8"><path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.988-8-13.083-8-5.096 0-5.096 8 0 8 5.095 0 7.988-8 13.083-8z"/></svg></span> Limitsiz promt yaratmaq</li>
+      <li><span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D2A55D" stroke-width="1.8"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg></span> Daha sürətli AI cavabı</li>
+      <li><span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D2A55D" stroke-width="1.8"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 12l10 5 10-5"/></svg></span> Əlavə ton və üslub seçimləri</li>
+      <li><span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D2A55D" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h5"/></svg></span> Promt tarixçəsini saxlamaq</li>
+      <li><span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D2A55D" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/></svg></span> Reklamsız təmiz interfeys</li>
+    </ul>
+
+    <div class="pro-plans">
+      <div class="pro-plan monthly">
+        <div class="p-label">Aylıq</div>
+        <div class="p-price">5 AZN</div>
+        <div class="p-billed">Hər ay ödəniş</div>
+      </div>
+      <div class="pro-plan yearly">
+        <span class="pro-save">Qənaət 20 AZN</span>
+        <div class="p-label">İllik</div>
+        <div class="p-price">40 AZN</div>
+        <div class="p-billed">İldə bir dəfə</div>
+      </div>
+    </div>
+
+    <a class="pro-subscribe" id="proSubscribe" href="https://wa.me/994552107111?text=Salam%2C%20Promt.AI%20Pro%20abun%C9%99sini%20a%C3%A7d%C4%B1rmaq%20ist%C9%99yir%C9%99m." target="_blank" rel="noopener">
+      Abunə ol
+      <svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5 7 7.5 1.5 13.5"/></svg>
+    </a>
+    <p class="pro-note">Aktivləşdirmə WhatsApp üzərindən əl ilə edilir</p>
+  </div>
+</div>
 
 <main>
   <div class="card">
@@ -285,6 +458,20 @@ footer a:hover{text-decoration:underline;}
 </footer>
 
 <script src="app.js"></script>
+<script>
+(function(){
+  var fab = document.getElementById('proFab');
+  var overlay = document.getElementById('proOverlay');
+  var closeBtn = document.getElementById('proClose');
+  if(!fab || !overlay) return;
+  function openPro(){ overlay.classList.add('open'); }
+  function closePro(){ overlay.classList.remove('open'); }
+  fab.addEventListener('click', openPro);
+  closeBtn.addEventListener('click', closePro);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) closePro(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePro(); });
+})();
+</script>
 <script>
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
